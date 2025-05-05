@@ -1,0 +1,4 @@
+matplotlib
+networkx
+scikit-learn
+numpy
