@@ -12,9 +12,7 @@ def collect_crash_data():
     return crash_data
 
 def cluster_crashes(crash_data, num_clusters=3):
-    """
-    Apply k-means clustering to group similar crashes.
-    """
+    #apply k-means clustering
     kmeans = KMeans(n_clusters=num_clusters)
     clusters = kmeans.fit_predict(crash_data)
 
