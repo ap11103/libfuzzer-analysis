@@ -17,7 +17,7 @@ void process_input(char *input) {
 
 //main function to interact with libFuzzer
 int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
-    // Convert the fuzzer input into a string (null-terminated)
+    //convert the fuzzer input into a string (null-terminated)
     char *input = malloc(size + 1);
     if (!input) {
         return 0;
