@@ -18,7 +18,7 @@ This project enhances **libFuzzer** by integrating tools for visualizing coverag
    - On Ubuntu-based systems:
      ```bash
      sudo apt-get update
-     sudo apt-get install clang llvm
+     sudo apt-get install clang llvm llvm-profdata llvm-cov
      ```
 
 2. **Clone the repository**:
@@ -45,6 +45,21 @@ This project enhances **libFuzzer** by integrating tools for visualizing coverag
 7. **Run the python script**
     ```bash
     python3 fuzzing_script.py
+
+
+## **Main Files**:
+- program.c: The C program that is fuzzed with libFuzzer
+- fuzzing_script.py: Python script that orchestrates fuzzing, coverage data collection, and visualization
+- coverage_visualization: Python script for visualizing the code coverage during fuzzing by generating heatmaps
+- mutation_analysis: Python script for visualizing and analyzing mutations and their relation to crashes
+- crash_clustering: Python script to perform KMeans clustering on crash data
+
+
+
+## **Visualization**:
+- Mutation Analysis: Visualize the relationship between input mutations and their resulting crashes.
+- Crash Clustering: Visualize the distribution of crashes and group them based on their features (stack trace, memory address, etc.).
+- Coverage Visualization: Heatmap of code coverage during fuzzing to show which parts of the code were tested.
 
 
 ## **Troubleshooting**:
