@@ -16,13 +16,13 @@ coverage_data_file = 'coverage_data.profdata'
 #compile the program will fuzzer
 def compile_program():
     print("Compiling the program with libFuzzer and sanitizers...")
-    # Correct the path to the program.cpp file
+    #correct the path to the program.cpp file
     compile_command = [
         'clang++', 
         '-fsanitize=address,undefined', 
         '-fsanitize-coverage=trace-pc-guard', 
         '-g', '-O1', '-fno-omit-frame-pointer', 
-        '-o', program_name, './program.c', '-lFuzzer'
+        '-o', program_name, './program.cpp', '-lFuzzer', '-lstdc++'
     ]
     subprocess.run(compile_command, check=True)
     print("Compilation complete.")

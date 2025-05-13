@@ -63,7 +63,7 @@ def visualize_coverage(coverage_data):
     plt.show()
 
 def main():
-    #conver, parse, and visualize
+    #convert, parse, and visualize
     coverage_data_file = convert_profraw_to_profdata()    
     if coverage_data_file:
         coverage_data = parse_coverage_data(coverage_data_file)

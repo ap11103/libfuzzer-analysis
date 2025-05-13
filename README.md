@@ -1,4 +1,4 @@
-# LibFuzzer Crash Clustering & Mutation Analysis
+# LibFuzzer Crash Clustering, Coverage Visualization, and Mutation Analysis
 
 This project enhances **libFuzzer** by integrating tools for visualizing coverage data, tracking input mutations, and clustering crashes. The goal is to analyze and understand the relationship between different mutations and the resulting crashes during fuzz testing, helping developers optimize fuzzing strategies.
 
@@ -31,8 +31,16 @@ This project enhances **libFuzzer** by integrating tools for visualizing coverag
     pip install -r requirements.txt
 
 4. **Build the C program with libFuzzer**:
+    (this approach wasn't reliable)
+     -  Build as C++
+    You need to link against LibFuzzer, and you should ensure the C++ standard library is linked as well. Since LibFuzzer is part of LLVM's C++ tools, it requires a C++ compilation environment even if your code is in C.
+    [
+    clang++ -fsanitize=address,undefined -fsanitize-coverage=trace-pc-guard -g -O1 -fno-omit-frame-pointer -o program program.c -lFuzzer]
+   
     ```bash
-    clang++ -fsanitize=address,undefined -fsanitize-coverage=trace-pc-guard -g -O1 -fno-omit-frame-pointer -o program program.c -lFuzzer
+    clang++ -fsanitize=address,undefined -fsanitize-coverage=trace-pc-guard -g -O1 -fno-omit-frame-pointer -o program program.cpp -lFuzzer -lstdc++
+
+
 
 5. **Run the Fuzzer**
     ```bash
