@@ -10,11 +10,8 @@ def log_mutation(mutation_type, crash_type, parent_mutation=None):
     }
 
 def visualize_mutation_graph(mutation_log):
-    """
-    Visualizes the relationship between mutations and crashes.
-    """
+    #relationship between mutation and crashes
     G = nx.DiGraph()
-
     #adding nodes and edges based on mutation logs
     for log in mutation_log:
         G.add_node(log['mutation'], crash=log['crash'])
@@ -22,12 +19,20 @@ def visualize_mutation_graph(mutation_log):
             G.add_edge(log['parent'], log['mutation'])
 
     #create a plot of the mutation tree
-    pos = nx.spring_layout(G)
+    pos = nx.spring_layout(G, k=0.5, seed=42)
     labels = nx.get_node_attributes(G, 'crash')
 
+    color_map = {
+        "No Crash": 'green',
+        "Segmentation Fault": 'red',
+        "Memory Corruption": 'orange',
+        "Buffer Overflow": 'yellow'
+    }
+    node_colors = [color_map.get(labels[node], 'gray') for node in G.nodes]
     plt.figure(figsize=(12, 8))
-    nx.draw(G, pos, with_labels=True, node_size=5000, node_color='lightblue')
-    nx.draw_networkx_labels(G, pos, labels, font_size=10, font_color='red')
+
+    nx.draw(G, pos, with_labels=True, node_size=5000, node_color=node_colors, font_size=12, font_weight='bold', edge_color='gray', width=2)
+    nx.draw_networkx_labels(G, pos, labels, font_size=10, font_color='black')
 
     plt.title("Fuzzer Input Mutation Analysis")
     plt.show()

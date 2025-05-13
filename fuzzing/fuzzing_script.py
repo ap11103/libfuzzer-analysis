@@ -16,12 +16,13 @@ coverage_data_file = 'coverage_data.profdata'
 #compile the program will fuzzer
 def compile_program():
     print("Compiling the program with libFuzzer and sanitizers...")
+    # Correct the path to the program.cpp file
     compile_command = [
         'clang++', 
         '-fsanitize=address,undefined', 
         '-fsanitize-coverage=trace-pc-guard', 
         '-g', '-O1', '-fno-omit-frame-pointer', 
-        '-o', program_name, 'fuzzing/program.c', '-lFuzzer'
+        '-o', program_name, './program.c', '-lFuzzer'
     ]
     subprocess.run(compile_command, check=True)
     print("Compilation complete.")
@@ -51,16 +52,26 @@ def clean_up():
         os.remove(program_name)
     if os.path.exists(coverage_raw_file):
         os.remove(coverage_raw_file)
+    if os.path.exists(corpus_dir):
+        shutil.rmtree(corpus_dir)  # Cleanup the corpus directory if needed
     print("Clean up completed.")
+
+#create a seed corpus (if it doesn't exist)
+def create_seed_corpus():
+    if not os.path.exists(corpus_dir):
+        os.makedirs(corpus_dir)
+        print(f"Created corpus directory: {corpus_dir}")
+    #add a simple seed input for fuzzing
+    with open(os.path.join(corpus_dir, "seed_input.txt"), 'w') as f:
+        f.write("example_seed_data\n")
+    print("Seed corpus created.")
 
 #main
 def collect_coverage_data():
     try:
-        #create corpus_dir, if it doesn't exists already
-        if not os.path.exists(corpus_dir):
-            os.makedirs(corpus_dir)
-            print(f"Created corpus directory: {corpus_dir}")
-        
+        #create seed corpus if necessary
+        create_seed_corpus()
+
         #compile
         compile_program()
 
